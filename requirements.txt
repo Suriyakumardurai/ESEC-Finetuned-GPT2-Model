@@ -3,3 +3,4 @@ gdown>=4.7.1
 torch>=2.0.0
 transformers>=4.41.2
 safetensors>=0.4.2
+markdown2
