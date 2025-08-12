@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College AI Assistant | Minimalist</title>
+    <style>
+        :root {
+            --bg-color: #f4f4f7;
+            --container-color: #ffffff;
+            --border-color: #e5e5ea;
+            --text-primary: #1c1c1e;
+            --text-secondary: #6e6e73;
+            --accent-color: #5856D6;
+            --accent-light: #f5f5ff;
+        }
+        /* ... (all the CSS from the "Minimalist Focus" design) ... */
+        body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-primary); }
+        .chat-container { display: flex; flex-direction: column; height: 100vh; max-width: 800px; margin: 0 auto; background-color: var(--container-color); border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); box-sizing: border-box; }
+        .chat-header { padding: 16px 24px; border-bottom: 1px solid var(--border-color); text-align: center; flex-shrink: 0; }
+        .chat-header h1 { margin: 0; font-size: 20px; font-weight: 600; }
+        .chat-log { flex-grow: 1; padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+        .chat-log::-webkit-scrollbar { width: 8px; }
+        .chat-log::-webkit-scrollbar-track { background: var(--bg-color); }
+        .chat-log::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 4px; }
+        .chat-log::-webkit-scrollbar-thumb:hover { background: #b3b3b8; }
+        @keyframes message-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .chat-message { display: flex; gap: 16px; max-width: 85%; animation: message-in 0.3s ease-out; }
+        .message-content { padding: 12px 16px; border-radius: 18px; line-height: 1.5; }
+        .user-message { align-self: flex-end; flex-direction: row-reverse; }
+        .user-message .message-content { background-color: var(--accent-color); color: white; border-bottom-right-radius: 4px; }
+        .bot-message { align-self: flex-start; }
+        .bot-message .message-content { background-color: var(--accent-light); color: var(--text-primary); border: 1px solid var(--border-color); border-bottom-left-radius: 4px; }
+        .chat-input-form { display: flex; align-items: center; padding: 16px 24px; border-top: 1px solid var(--border-color); background-color: #fdfdff; flex-shrink: 0; }
+        .chat-input-form textarea { flex-grow: 1; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-primary); font-family: inherit; font-size: 16px; padding: 10px 14px; resize: none; height: 24px; max-height: 100px; outline: none; transition: border-color 0.2s ease; }
+        .chat-input-form textarea:focus { border-color: var(--accent-color); }
+        .chat-input-form textarea::placeholder { color: var(--text-secondary); }
+        .chat-input-form button { background: var(--accent-color); border: none; border-radius: 10px; width: 44px; height: 44px; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-left: 12px; transition: background-color 0.2s ease; flex-shrink: 0; }
+        .chat-input-form button:hover { background-color: #4442a8; }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <header class="chat-header">
+            <h1>🎓 College AI Assistant</h1>
+        </header>
+
+        <main class="chat-log">
+            {% if prompt %}
+                <div class="chat-message user-message">
+                    <div class="message-content">
+                        <p>{{ prompt }}</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if response %}
+                <div class="chat-message bot-message">
+                    <div class="message-content">
+                        <div>{{ response|safe }}</div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="chat-message bot-message">
+                    <div class="message-content">
+                        <p>Hello! Ask me anything about Erode Sengunthar engineering college or campus life.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </main>
+
+        <footer class="chat-input-form">
+            <form method="POST" style="display: contents;">
+                {% csrf_token %}
+                <textarea name="prompt" placeholder="Ask something..." required oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px';">{{ prompt|default:"" }}</textarea>
+                <button type="submit" aria-label="Send message">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" style="margin-left: 2px;">
+                        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                    </svg>
+                </button>
+            </form>
+        </footer>
+    </div>
+</body>
+</html>
