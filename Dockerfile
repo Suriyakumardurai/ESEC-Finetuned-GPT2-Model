@@ -22,10 +22,9 @@ RUN python -m pip install --no-cache-dir -r requirements.txt
 
 # Download model from Google Drive with retries
 RUN for i in 1 2 3; do \
-        gdown --fuzzy "https://drive.google.com/file/d/1Q21qT1oRfexrTD0_wCXYvtL4nyC0fFIK/view?usp=sharing" -O /model.safetensors && break || sleep 5; \
+        gdown --fuzzy "https://drive.google.com/file/d/1Q21qT1oRfexrTD0_wCXYvtL4nyC0fFIK/view?usp=sharing" -O /app/model.safetensors && break || sleep 5; \
     done \
-    && test -f /model.safetensors || (echo "Model download failed!" && exit 1)
-
+    && test -f /app/model.safetensors || (echo "Model download failed!" && exit 1)
 # Copy project files
 COPY . .
 
