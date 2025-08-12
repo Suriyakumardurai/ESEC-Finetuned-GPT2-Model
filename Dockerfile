@@ -1,4 +1,4 @@
-# --- Dockerfile (build-time download: model baked into image) ---
+# --- Dockerfile ---
 FROM python:3.10-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# Install build/system deps, pip-install gdown, and keep apt cache clean
+# Install system deps & gdown
 RUN apt-get update && apt-get install -y --no-install-recommends \
         curl \
         git \
@@ -20,15 +20,17 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN python -m pip install --no-cache-dir -r requirements.txt
 
-# Download the model to the container root
-# (use --id <fileid> for robustness)
-RUN python -m gdown.cli --id 1Q21qT1oRfexrTD0_wCXYvtL4nyC0fFIK -O /model.safetensors
+# Download model from Google Drive with retries
+RUN for i in 1 2 3; do \
+        gdown --fuzzy "https://drive.google.com/file/d/1Q21qT1oRfexrTD0_wCXYvtL4nyC0fFIK/view?usp=sharing" -O /model.safetensors && break || sleep 5; \
+    done \
+    && test -f /model.safetensors || (echo "Model download failed!" && exit 1)
 
 # Copy project files
 COPY . .
 
-# Expose port (adjust if needed)
+# Expose port
 EXPOSE 8000
 
-# Default command (change to gunicorn for production)
+# Run the app
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
