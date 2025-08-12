@@ -15,6 +15,13 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+    
+    # If no runserver command is given, set default to 0.0.0.0:8000
+    if len(sys.argv) == 1:
+        sys.argv += ["runserver", "0.0.0.0:8000"]
+    elif sys.argv[1] == "runserver" and len(sys.argv) == 2:
+        sys.argv.append("0.0.0.0:8000")
+
     execute_from_command_line(sys.argv)
 
 
