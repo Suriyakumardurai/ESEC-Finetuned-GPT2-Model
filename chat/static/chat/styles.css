@@ -1,0 +1,191 @@
+:root {
+    --bg-color: #f5f7fa;
+    --container-color: #ffffff;
+    --border-color: #e0e6ed;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --accent-color: #2563eb;
+    --accent-light: #eff6ff;
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.04);
+    --shadow-medium: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Base */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+}
+
+/* Container */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 820px;
+    margin: 0 auto;
+    background-color: var(--container-color);
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    box-shadow: var(--shadow-soft);
+}
+
+/* Header */
+.chat-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+    background-color: var(--container-color);
+}
+
+.chat-header h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent-color);
+    letter-spacing: -0.3px;
+}
+
+/* Chat log */
+.chat-log {
+    flex-grow: 1;
+    padding: 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background-color: var(--bg-color);
+}
+
+.chat-log::-webkit-scrollbar {
+    width: 6px;
+}
+.chat-log::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+.chat-log::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+@keyframes message-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Messages */
+.chat-message {
+    display: flex;
+    gap: 12px;
+    max-width: 80%;
+    animation: message-in 0.25s ease-out;
+}
+
+.message-content {
+    padding: 12px 16px;
+    border-radius: 14px;
+    box-shadow: var(--shadow-soft);
+    font-size: 15px;
+}
+
+.user-message {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.user-message .message-content {
+    background-color: var(--accent-color);
+    color: white;
+    border-bottom-right-radius: 6px;
+}
+
+.bot-message {
+    align-self: flex-start;
+}
+
+.bot-message .message-content {
+    background-color: var(--accent-light);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-bottom-left-radius: 6px;
+}
+
+/* Rich text styling */
+.message-content h2 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--accent-color);
+}
+
+.message-content p {
+    margin: 0 0 10px;
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+.message-content ul {
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+.message-content li {
+    margin-bottom: 6px;
+}
+
+/* Input form */
+.chat-input-form {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--container-color);
+}
+
+.chat-input-form textarea {
+    flex-grow: 1;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 15px;
+    padding: 10px 14px;
+    resize: none;
+    height: 40px;
+    max-height: 120px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-input-form textarea:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.chat-input-form textarea::placeholder {
+    color: var(--text-secondary);
+}
+
+.chat-input-form button {
+    background: var(--accent-color);
+    border: none;
+    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.chat-input-form button:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+}
